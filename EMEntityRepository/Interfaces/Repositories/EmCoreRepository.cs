@@ -868,13 +868,5 @@ namespace EMEntityRepository.Interfaces.Repositories
             entity.IsDelete = true;
             entity.Updated = DateTime.Now;
         }
-
-        //    var affiliate = await affiliateRepository.GetFirstOrDefaultAsync(
-        //predicate: b => b.Id == id,
-        //include: source => source
-        //    .Include(a => a.Branches)
-        //    .ThenInclude(a => a.Emails)
-        //    .Include(a => a.Branches)
-        //    .ThenInclude(a => a.Phones));
     }
 }
