@@ -8,12 +8,12 @@
     <PackageTags>Em, EM, Entity, Framework, Core, entity-framework-core, EF, EntityFramework, EntityFrameworkCore, EntityRepository, CoreEntityRepository,  EFCore</PackageTags>
     <NeutralLanguage>en-001</NeutralLanguage>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <Description>Generic Repository Pattern EFCore - Basic properties for the database model. An event to work with the database.
-Общий шаблон репозитория EFCore - Основные свойства для модели базы данных. Событие для работы с базой данных.</Description>
+    <Description>Generic Repository Pattern EFCore - Basic properties for the database model. An event to work with the database. An abstract EMEntity class has been added that does not require the implementation of the IEMEntity interface when inheriting.
+Общий шаблон репозитория EFCore - Основные свойства для модели базы данных. Событие для работы с базой данных. Добавлен абстрактный класс EMEntity, который не требует реализовать интерфейс IEMEntity при наследования.</Description>
     <PackageId>EM.EntityRepository</PackageId>
     <Copyright>May 2020</Copyright>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
