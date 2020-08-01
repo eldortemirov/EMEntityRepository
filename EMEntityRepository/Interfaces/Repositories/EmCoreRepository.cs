@@ -32,14 +32,14 @@ namespace EMEntityRepository.Interfaces.Repositories
         private IQueryable<TEntity> GetQuery(bool isDelete = false)
         {
             IQueryable<TEntity> query = dbSet;
-            if (isDelete) query = query.Where(w => w.IsDelete == isDelete);
+            query = query.Where(w => w.IsDelete == isDelete);
             return query;
         }
 
         private IEnumerable<TEntity> GetEnumerable(bool isDelete = false)
         {
             IEnumerable<TEntity> query = dbSet;
-            if (isDelete) query = query.Where(w => w.IsDelete == isDelete);
+            query = query.Where(w => w.IsDelete == isDelete);
             return query;
         }
 
