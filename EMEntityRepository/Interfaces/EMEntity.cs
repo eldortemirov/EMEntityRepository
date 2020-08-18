@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace EMEntityRepository.Interfaces
@@ -10,9 +12,35 @@ namespace EMEntityRepository.Interfaces
     /// <typeparam name="TKey"></typeparam>
     public abstract class EMEntity<TKey> : IEMEntity<TKey>
     {
+        /// <summary>
+        /// Key property
+        /// </summary>
+        [Key]
+        [Column("id")]
         public TKey Id { get ; set; }
+
+        /// <summary>
+        /// Delete status
+        /// </summary>
+        [Column("is_delete")]
         public bool IsDelete { get; set; }
+
+        /// <summary>
+        /// Create Date
+        /// </summary>
+        [Column("created")]
         public DateTime Created { get; set; }
+        
+        /// <summary>
+        /// Update Date
+        /// </summary>
+        [Column("updated")]
         public DateTime Updated { get; set; }
+
+        /// <summary>
+        /// Delete Date
+        /// </summary>
+        [Column("deleted")]
+        public DateTime? Deleted { get; set; }
     }
 }

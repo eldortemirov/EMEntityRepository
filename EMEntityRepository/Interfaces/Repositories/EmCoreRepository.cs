@@ -866,7 +866,7 @@ namespace EMEntityRepository.Interfaces.Repositories
         private void SetIsDelete(TEntity entity)
         {
             entity.IsDelete = true;
-            entity.Updated = DateTime.Now;
+            entity.Deleted = DateTime.Now;
         }
     }
 }

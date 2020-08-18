@@ -33,5 +33,11 @@ namespace EMEntityRepository.Interfaces
         /// </summary>
         [BindNever]
         public DateTime Updated { get; set; }
+
+        /// <summary>
+        /// Date modified entry / Дата изменения записи
+        /// </summary>
+        [BindNever]
+        public DateTime? Deleted { get; set; }
     }
 }
