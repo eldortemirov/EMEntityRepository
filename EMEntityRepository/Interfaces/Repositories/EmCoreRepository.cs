@@ -87,20 +87,38 @@ namespace EMEntityRepository.Interfaces.Repositories
         public async Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(bool isDelete = false)
         => await Task.Run(() => GetEnumerable(isDelete));
 
-        ///// <summary>
-        ///// IEnumarable<TEntity> all entries / Все записи IEnumarable<TEntity>
-        ///// </summary>
-        ///// <param name="predicate"></param>
-        ///// <param name="isDelete"></param>
-        ///// <returns></returns>
-        //public async Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(Expression<Func<TEntity, bool>> predicate = null, bool isDelete = false)
-        //{
-        //    IQueryable<TEntity> query = GetQuery(isDelete);
+        /// <summary>
+        /// IEnumarable<TEntity> all entries / Все записи IEnumarable<TEntity>
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(Expression<Func<TEntity, bool>> predicate = null, bool isDelete = false)
+        {
+            IQueryable<TEntity> query = GetQuery(isDelete);
 
-        //    if (predicate != null) query = query.Where(predicate);
+            if (predicate != null) query = query.Where(predicate);
 
-        //    return await query.ToListAsync();
-        //}
+            return await query.ToListAsync();
+        }
+
+        /// <summary>
+        /// IQueryable<TEntity> all entries with predicate / Все записи IQueryable<TEntity> c фильтрами
+        /// </summary>
+        /// <param name="include"></param>
+        /// <param name="predicate"></param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, Expression<Func<TEntity, bool>> predicate = null, bool isDelete = false)
+        {
+            IQueryable<TEntity> query = GetQuery(isDelete);
+
+            if (predicate != null) query = query.Where(predicate);
+
+            if (include != null) query = include(query);
+
+            return await query.ToListAsync();
+        }
 
         /// <summary>
         /// IAsyncEnumarable<TEntity> all entries / Все записи IAsyncEnumarable<TEntity>
