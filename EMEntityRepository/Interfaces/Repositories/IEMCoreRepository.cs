@@ -95,6 +95,12 @@ namespace EMEntityRepository.Interfaces.Repositories
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(bool isDelete = false);
 
+
+        Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(Expression<Func<TEntity, bool>> predicate = null, bool isDelete = false);
+
+
+        Task<IEnumerable<TEntity>> GetAllAsEnumerableAsync(Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null, Expression<Func<TEntity, bool>> predicate = null, bool isDelete = false);
+
         /// <summary>
         /// Get asynchronously all entries, that property IsDelete = false (IAsyncEnumerable<TEntity>) / Получить асинхронно все записи, где свойство IsDelete = false (IAsyncEnumerable<TEntity>)
         /// </summary>
