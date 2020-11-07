@@ -454,7 +454,6 @@ namespace EMEntityRepository.Interfaces.Repositories
         public TEntity Update(TEntity entity)
         {
             SetUpdataDate(entity);
-            context.Entry(entity).State = EntityState.Modified;
             dbSet.Update(entity);
             context.SaveChanges();
             return entity;
@@ -468,7 +467,6 @@ namespace EMEntityRepository.Interfaces.Repositories
         public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             SetUpdataDate(entity);
-            context.Entry(entity).State = EntityState.Modified;
             dbSet.Update(entity);
             await context.SaveChangesAsync();
             return entity;
@@ -676,8 +674,11 @@ namespace EMEntityRepository.Interfaces.Repositories
         /// Gets the first or default entity based / Получает первый объект или объект по умолчанию
         /// </summary>
         /// <returns></returns>
-        public TResult GetFirstOrDefault<TResult>(Expression<Func<TEntity, TResult>> selector) => GetQuery().Select(selector).FirstOrDefault();
-        
+        public TResult GetFirstOrDefault<TResult>(Expression<Func<TEntity, TResult>> selector)
+        {
+            return GetQuery().Select(selector).FirstOrDefault();
+        }
+
         /// <summary>
         /// Gets the first or default entity based / Получает первый объект или объект по умолчанию
         /// </summary>
@@ -870,21 +871,46 @@ namespace EMEntityRepository.Interfaces.Repositories
             return await query.Select(selector).FirstOrDefaultAsync();
         }
 
+        public async Task<TResult> GetFirstOrDefaultAsync<TResult>(Expression<Func<TEntity, bool>> predicate,
+                                                                    Expression<Func<TEntity, TResult>> selector,
+                                                                    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                                                                    Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> include = null)
+        {
+            IQueryable<TEntity> query = GetQuery();
+
+            if (include != null)
+                query = include(query);
+
+            if (predicate != null)
+                query = query.Where(predicate);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            if (orderBy != null)
+                return await orderBy(query).Select(selector).FirstOrDefaultAsync();
+
+            return await query.Select(selector).FirstOrDefaultAsync();
+        }
+
         private void SetCreateDate(TEntity entity)
         {
             if (entity.Created == null)
                 entity.Created = entity.Updated = DateTime.Now;
             else
                 entity.Updated = entity.Created;
+            context.Entry(entity).State = EntityState.Added;
         }
         private void SetUpdataDate(TEntity entity)
         {
             entity.Updated = DateTime.Now;
+            context.Entry(entity).State = EntityState.Modified;
         }
         private void SetIsDelete(TEntity entity)
         {
             entity.IsDelete = true;
             entity.Deleted = DateTime.Now;
+            context.Entry(entity).State = EntityState.Deleted;
         }
     }
 }
